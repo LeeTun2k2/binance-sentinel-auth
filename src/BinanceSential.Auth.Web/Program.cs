@@ -17,16 +17,20 @@ var appLogger = new SerilogLoggerFactory(logger)
 builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
 builder.Services.AddServiceConfigs(appLogger, builder);
 
-builder.Services.AddFastEndpoints()
-                .SwaggerDocument(o =>
-                {
-                  o.ShortSchemaNames = true;
-                });
-
-
+if (builder.Environment.IsDevelopment())
+{
+  builder.Services.AddFastEndpoints()
+                  .SwaggerDocument(o =>
+                  {
+                    o.ShortSchemaNames = true;
+                  });
+}
 var app = builder.Build();
 
 await app.UseAppMiddlewareAndSeedDatabase();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
 

@@ -1,4 +1,4 @@
-﻿using BinanceSential.Auth.Core.Interfaces;
+﻿using BinanceSential.Auth.Core.Interfaces.IEmailServices;
 using BinanceSential.Auth.Infrastructure;
 using BinanceSential.Auth.Infrastructure.Email;
 
@@ -14,13 +14,7 @@ public static class ServiceConfigs
 
     if (builder.Environment.IsDevelopment())
     {
-      // Use a local test email server
-      // See: https://ardalis.com/configuring-a-local-test-email-server/
-      services.AddScoped<IEmailSender, MimeKitEmailSender>();
-
-      // Otherwise use this:
-      //builder.Services.AddScoped<IEmailSender, FakeEmailSender>();
-
+      builder.Services.AddScoped<IEmailSender, FakeEmailSender>();
     }
     else
     {
