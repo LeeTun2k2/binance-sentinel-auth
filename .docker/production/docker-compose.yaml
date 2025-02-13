@@ -1,0 +1,34 @@
+services:
+  auth:
+    image: leetun2k2/binance-sentinel-auth:latest
+    container_name: auth-container
+    environment:
+      POSTGRES_USER: Production
+    ports:
+      - "8080:8080"
+    volumes:
+      - appsettings.json:appsettings.json
+      - logs:logs
+    networks:
+      - auth
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - auth
+
+volumes:
+  postgres-data:
+
+networks:
+  auth:
+    driver: bridge

@@ -19,18 +19,30 @@ Summarize somethings
 
 ## Running Migrations
 
-In Visual Studio, open the Package Manager Console, and run `Add-Migration InitialMigrationName -StartupProject BinanceSentiel.Auth.Web -Context AppDbContext -Project BinanceSentiel.Auth.Infrastructure`.
+In a terminal with the CLI, the command is similar. 
 
-In a terminal with the CLI, the command is similar. Run this from the Web project directory:
+Run this from the BinanceSential.Auth.sln:
 
 ```terminal
-dotnet ef migrations add MIGRATIONNAME -c AppDbContext -p ../BinanceSentiel.Auth.Infrastructure/BinanceSentiel.Auth.Infrastructure.csproj -s BinanceSentiel.Auth.Web.csproj -o Data/Migrations
+dotnet ef migrations add MIGRATIONNAME -c AppDbContext -p src/BinanceSential.Auth.Infrastructure/BinanceSential.Auth.Infrastructure.csproj -s src/BinanceSential.Auth.Web/BinanceSential.Auth.Web.csproj -o Data/Migrations
 ```
 
-To update the database use this command from the Web project folder (replace `BinanceSential.Auth` with your project's name):
+To remove the latest migration, run this command from the BinanceSential.Auth.sln:
 
 ```terminal
-dotnet ef database update -c AppDbContext -p ../BinanceSential.Auth.Infrastructure/BinanceSential.Auth.Infrastructure.csproj -s BinanceSential.Auth.Web.csproj
+dotnet ef migrations remove -c AppDbContext -p src/BinanceSential.Auth.Infrastructure/BinanceSential.Auth.Infrastructure.csproj -s src/BinanceSential.Auth.Web/BinanceSential.Auth.Web.csproj
+```
+
+To update the database use this command from the BinanceSential.Auth.sln:
+
+```terminal
+dotnet ef database update -c AppDbContext -p src/BinanceSential.Auth.Infrastructure/BinanceSential.Auth.Infrastructure.csproj -s src/BinanceSential.Auth.Web/BinanceSential.Auth.Web.csproj
+```
+
+To drop the database use this command from the BinanceSential.Auth.sln:
+
+```terminal
+dotnet ef database drop -c AppDbContext -p src/BinanceSential.Auth.Infrastructure/BinanceSential.Auth.Infrastructure.csproj -s src/BinanceSential.Auth.Web/BinanceSential.Auth.Web.csproj
 ```
 
 # Design Decisions and Dependencies

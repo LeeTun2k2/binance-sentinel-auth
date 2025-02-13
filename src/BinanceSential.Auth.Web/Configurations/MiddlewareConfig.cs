@@ -1,5 +1,7 @@
 ﻿using Ardalis.ListStartupServices;
+using BinanceSential.Auth.Core.UserAggregate;
 using BinanceSential.Auth.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace BinanceSential.Auth.Web.Configurations;
 
@@ -36,9 +38,11 @@ public static class MiddlewareConfig
     try
     {
       var context = services.GetRequiredService<AppDbContext>();
-      //          context.Database.Migrate();
+      var configuration = services.GetRequiredService<IConfiguration>();
+      var userManager = services.GetRequiredService<UserManager<User>>();
+      var roleManager = services.GetRequiredService<RoleManager<Role>>();
       context.Database.EnsureCreated();
-      await SeedData.InitializeAsync(context);
+      await SeedData.InitializeAsync(configuration, context, userManager, roleManager);
     }
     catch (Exception ex)
     {

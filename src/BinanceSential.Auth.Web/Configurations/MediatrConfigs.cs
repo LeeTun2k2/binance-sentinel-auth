@@ -1,8 +1,7 @@
-﻿using Ardalis.SharedKernel;
-using BinanceSential.Auth.Core.ContributorAggregate;
-using BinanceSential.Auth.UseCases.Contributors.Create;
-using MediatR;
-using System.Reflection;
+﻿using System.Reflection;
+using Ardalis.SharedKernel;
+using BinanceSential.Auth.Core.UserAggregate;
+using BinanceSential.Auth.UseCases.Authentications.Register;
 
 namespace BinanceSential.Auth.Web.Configurations;
 
@@ -12,8 +11,8 @@ public static class MediatrConfigs
   {
     var mediatRAssemblies = new[]
       {
-        Assembly.GetAssembly(typeof(Contributor)), // Core
-        Assembly.GetAssembly(typeof(CreateContributorCommand)) // UseCases
+        Assembly.GetAssembly(typeof(User)), // Core
+        Assembly.GetAssembly(typeof(RegisterCommand)) // UseCases
       };
 
     services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(mediatRAssemblies!))

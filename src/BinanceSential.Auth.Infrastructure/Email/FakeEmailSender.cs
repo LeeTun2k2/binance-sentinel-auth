@@ -1,4 +1,4 @@
-﻿using BinanceSential.Auth.Core.Interfaces;
+﻿using BinanceSential.Auth.Core.Interfaces.IEmailServices;
 
 namespace BinanceSential.Auth.Infrastructure.Email;
 
