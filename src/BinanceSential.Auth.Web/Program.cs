@@ -17,18 +17,38 @@ var appLogger = new SerilogLoggerFactory(logger)
 builder.Services.AddOptionConfigs(builder.Configuration, appLogger, builder);
 builder.Services.AddServiceConfigs(appLogger, builder);
 
-if (builder.Environment.IsDevelopment())
+var allowFeConnection = "AllowFeConnection";
+string[] allowedOrigins = builder.Configuration
+  .GetSection("Cors:AllowedOrigins")
+  .Get<string[]>() ?? [];
+
+builder.Services.AddCors(options =>
 {
-  builder.Services.AddFastEndpoints()
-                  .SwaggerDocument(o =>
-                  {
-                    o.ShortSchemaNames = true;
-                  });
+  options.AddPolicy(name: allowFeConnection, policy =>
+  {
+    policy.WithOrigins(allowedOrigins)
+    .AllowAnyHeader()
+    .AllowAnyMethod();
+  });
+});
+
+if (builder.Environment.IsProduction())
+{
+  builder.Services.AddFastEndpoints();
 }
+else
+{
+  builder.Services.AddFastEndpoints().SwaggerDocument(o =>
+  {
+    o.ShortSchemaNames = true;
+  });
+}
+
 var app = builder.Build();
 
 await app.UseAppMiddlewareAndSeedDatabase();
 
+app.UseCors(allowFeConnection);
 app.UseAuthentication();
 app.UseAuthorization();
 

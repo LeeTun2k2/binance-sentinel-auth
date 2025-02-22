@@ -18,7 +18,8 @@ public class Login(IMediator mediator) : Endpoint<LoginRequest, ApiResponse<Logi
 
     if (!result.IsSuccess)
     {
-      Response = new ApiResponse<LoginResponse>(400, "Failed to login.", result.Errors);
+      HttpContext.Response.StatusCode = 401;
+      Response = new ApiResponse<LoginResponse>(401, "Failed to login.", result.Errors);
       return;
     }
 

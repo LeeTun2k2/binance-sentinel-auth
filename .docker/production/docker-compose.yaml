@@ -7,8 +7,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - appsettings.json:appsettings.json
-      - logs:logs
+      - ./appsettings.json:/app/appsettings.json
+      - auth-logs:/app/logs
     networks:
       - auth
 
@@ -28,6 +28,7 @@ services:
 
 volumes:
   postgres-data:
+  auth-logs:
 
 networks:
   auth:
