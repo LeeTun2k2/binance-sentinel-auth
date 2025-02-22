@@ -32,4 +32,8 @@ FROM base AS final
 WORKDIR /app
 ENV ASPNETCORE_ENVIRONMENT=Production
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "BinanceSential.Auth.Web.dll"]
+
+# Copy entrypoint script
+COPY --from=publish /src/src/BinanceSential.Auth.Web/entrypoint.sh .
+
+ENTRYPOINT [ "sh", "-c", "sh /app/entrypoint.sh" ]
